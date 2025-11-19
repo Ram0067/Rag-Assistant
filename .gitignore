@@ -16,3 +16,10 @@ __pycache__/
 # OS files
 .DS_Store
 Thumbs.db
+
+#project folders
+data/
+input/
+output/
+text_clean/
+vectorstore/

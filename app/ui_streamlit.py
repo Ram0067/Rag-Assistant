@@ -1,23 +1,65 @@
 import streamlit as st
+import chromadb
+from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
 from openai import OpenAI
-from rag_retrieve import retrieve
-from tutor_prompt import build_tutor_prompt
+from dotenv import load_dotenv
+import os
 
-st.title("📘 RAG AI Tutor")
+from rag_visualizer import extract_rag_keywords, detect_flow_pattern, generate_rag_flow_diagram
 
-client = OpenAI()
+# Load environment
+load_dotenv()
+DEEPSEEK_KEY = os.getenv("DEEPSEEK_API_KEY")
 
-user_input = st.text_input("Ask something from the document:")
-level = st.radio("Explain for:", ["beginner", "developer"])
+# DeepSeek Client
+client = OpenAI(api_key=DEEPSEEK_KEY, base_url="https://api.deepseek.com/v1")
 
-if user_input:
-    chunks = retrieve(user_input)
-    context = "\n\n".join(chunks)
-    prompt = build_tutor_prompt(user_input, context, level)
+# Chroma Setup
+embedding_function = SentenceTransformerEmbeddingFunction(model_name="BAAI/bge-small-en")
+chroma_client = chromadb.PersistentClient(path="vectorstore")
+collection = chroma_client.get_collection("rag_docs_final", embedding_function=embedding_function)
 
-    response = client.chat.completions.create(
-        model="gpt-5",
-        messages=[{"role": "system", "content": prompt}]
-    )
+# Streamlit UI
+st.title("🔍 RAG Assistant (Streamlit + DeepSeek)")
+st.write("Ask anything based on your PDF knowledge base.")
 
-    st.write(response.choices[0].message["content"])
+question = st.text_input("Enter your question:")
+
+if question:
+    results = collection.query(query_texts=[question], n_results=5)
+    
+    docs = results["documents"][0]
+    if not docs:
+        st.error("No relevant context found.")
+    else:
+        context = "\n".join(docs)
+
+        with st.spinner("Generating answer using DeepSeek..."):
+            prompt = f"""Use ONLY the context below to answer.
+
+Context:
+{context}
+
+Question:
+{question}
+
+Answer:
+"""
+            response = client.chat.completions.create(
+                model="deepseek-chat",
+                messages=[{"role": "user", "content": prompt}],
+                temperature=0.3
+            )
+
+            answer = response.choices[0].message.content.strip()
+            st.success("### 📘 Answer")
+            st.write(answer)
+
+        # Diagram option
+        if st.checkbox("Generate RAG Flow Diagram?"):
+            keywords = extract_rag_keywords(context)
+            pattern = detect_flow_pattern(keywords)
+            diagram = generate_rag_flow_diagram(keywords, pattern)
+
+            st.image(diagram)
+            st.success("Diagram generated successfully!")
