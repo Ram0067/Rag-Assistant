@@ -4,3 +4,5 @@ sentence-transformers
 pymupdf
 tqdm
 openai
+graphviz
+python dotenv
