@@ -7,4 +7,4 @@ openai
 graphviz
 python-
 paddle-ocr
-python_dotenv
+python-dotenv
