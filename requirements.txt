@@ -5,6 +5,5 @@ pymupdf
 tqdm
 openai
 graphviz
-python-
 paddle-ocr
 python-dotenv
