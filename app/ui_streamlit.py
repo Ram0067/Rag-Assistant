@@ -9,10 +9,10 @@ from rag_visualizer import extract_rag_keywords, detect_flow_pattern, generate_r
 
 # Load environment
 load_dotenv()
-DEEPSEEK_KEY = os.getenv("DEEPSEEK_API_KEY")
+GROQ_KEY = os.getenv("GROQ_API_KEY")
 
-# DeepSeek Client
-client = OpenAI(api_key=DEEPSEEK_KEY, base_url="https://api.deepseek.com/v1")
+# Groq Client
+client = OpenAI(api_key=GROQ_KEY, base_url="https://api.groq.com/v1")
 
 # Chroma Setup
 embedding_function = SentenceTransformerEmbeddingFunction(model_name="BAAI/bge-small-en")
@@ -46,7 +46,7 @@ Question:
 Answer:
 """
             response = client.chat.completions.create(
-                model="deepseek-chat",
+                model="groq-chat",
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.3
             )
