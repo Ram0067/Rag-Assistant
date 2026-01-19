@@ -34,7 +34,7 @@ if question:
     else:
         context = "\n".join(docs)
 
-        with st.spinner("Generating answer using DeepSeek..."):
+        with st.spinner("Generating answer ..."):
             prompt = f"""Use ONLY the context below to answer.
 
 Context:
