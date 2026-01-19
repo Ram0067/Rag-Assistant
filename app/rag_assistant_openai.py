@@ -9,16 +9,16 @@ from rag_visualizer import visualize_from_context
 # 1️⃣ Load environment
 # ---------------------------------------------
 load_dotenv()
-deepseek_key = os.getenv("DEEPSEEK_API_KEY")
+GROQ_key = os.getenv("GROQ_API_KEY")
 
-if not deepseek_key:
-    raise ValueError("❌ Missing DEEPSEEK_API_KEY. Please set it via: setx DEEPSEEK_API_KEY 'your_key_here'")
+if not GROQ_key:
+    raise ValueError("❌ Missing GROQ_API_KEY. Please set it via: setx GROQ_API_KEY 'your_key_here'")
 
 # ---------------------------------------------
-# 2️⃣ Initialize DeepSeek client
+# 2️⃣ Initialize GROQ client
 # ---------------------------------------------
-client = OpenAI(api_key=deepseek_key, base_url="https://openrouter.ai/api/v1")
-print("🤖 Using DeepSeek R1 API successfully authenticated ✅")
+client = OpenAI(api_key=GROQ_key, base_url="https://api.groq.com/openai/v1")
+print("🤖 Using GROQ API successfully authenticated ✅")
 
 # ---------------------------------------------
 # 3️⃣ Connect to Chroma vector store
