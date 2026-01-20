@@ -53,7 +53,7 @@ Question:
 Answer:
 """
     response = client.chat.completions.create(
-        model="deepseek/deepseek-r1",
+        model="gemma-7b-it",
         messages=[
             {"role": "system", "content": "You are a helpful assistant specialized in AI and RAG."},
             {"role": "user", "content": prompt},

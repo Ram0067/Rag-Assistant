@@ -12,7 +12,7 @@ load_dotenv()
 GROQ_KEY = os.getenv("GROQ_API_KEY")
 
 # Groq Client
-client = OpenAI(api_key=GROQ_KEY, base_url="https://api.groq.com/v1")
+client = OpenAI(api_key=GROQ_KEY, base_url="https://api.groq.com/openai/v1")
 
 # Chroma Setup
 embedding_function = SentenceTransformerEmbeddingFunction(model_name="BAAI/bge-small-en")
@@ -46,7 +46,7 @@ Question:
 Answer:
 """
             response = client.chat.completions.create(
-                model="groq-chat",
+                model="gemma-7b-it",
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.3
             )
