@@ -3,6 +3,7 @@ rag_env/
 venv/
 env/
 app/.env/
+rag/
 
 # Python cache
 __pycache__/
@@ -24,3 +25,5 @@ input/
 output/
 text_clean/
 vectorstore/
+#.env files
+*.env
