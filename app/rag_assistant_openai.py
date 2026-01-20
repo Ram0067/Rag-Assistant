@@ -53,7 +53,7 @@ Question:
 Answer:
 """
     response = client.chat.completions.create(
-        model="gemma-7b-it",
+        model="gemma-7b-it", # tried "llama3-8b-8192" and "groq-cha" as well but "gemma-7b-it"  nothin will worked best.
         messages=[
             {"role": "system", "content": "You are a helpful assistant specialized in AI and RAG."},
             {"role": "user", "content": prompt},

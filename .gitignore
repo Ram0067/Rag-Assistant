@@ -26,3 +26,4 @@ text_clean/
 vectorstore/
 #.env files
 *.env
+app/.env
