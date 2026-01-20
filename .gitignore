@@ -2,7 +2,6 @@
 rag_env/
 venv/
 env/
-app/.env/
 rag/
 
 # Python cache
